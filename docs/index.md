@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [sdk-library](./sdk-library.md) |  |
+|  [swivelmeta-dcl-sdk](./swivelmeta-dcl-sdk.md) |  |
 
