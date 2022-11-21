@@ -3,14 +3,24 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "node_modules"
   ],
   "compilerOptions": {
     "module": "ESNext",
     "declaration": true,
     "declarationDir": "./types",
     "declarationMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@dcl/ecs-scene-utils": [
+        "node_modules\\@dcl\\ecs-scene-utils\\dist\\index.d.ts"
+      ],
+      "@dcl/ui-scene-utils": [
+        "node_modules\\@dcl\\ui-scene-utils\\dist\\index.d.ts"
+      ],
+    },
+    "baseUrl": ".",
   },
   "extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
 }
