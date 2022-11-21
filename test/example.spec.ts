@@ -1,5 +1,5 @@
 import { Component } from 'decentraland-ecs'
-import { constant, ExampleComponent } from '../src/exampleComponent'
+import { constant, ExampleComponent } from '../src/examples/exampleComponent'
 
 describe('Example spec', () => {
   (globalThis as any).Component = Component

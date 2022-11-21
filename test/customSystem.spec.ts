@@ -1,4 +1,4 @@
-import { TimeSystem } from '../src/customSystem'
+import { TimeSystem } from '../src/examples/customSystem'
 
 describe('Time System', () => {
   it('should test the system', () => {
