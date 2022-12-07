@@ -1,4 +1,5 @@
 import * as ui from '@dcl/ui-scene-utils'
+// import { OkPrompt } from '@dcl/ui-scene-utils'
 import * as utils from '@dcl/ecs-scene-utils'
 
 export { ui, utils }
