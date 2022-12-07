@@ -24,11 +24,16 @@
     "swivelmeta",
     "sm"
   ],
-  "author": "swivel-meta",
+  "author": "Swivel-Meta",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flexito/swivelmeta-dcl-sdk.git"
+  },
+  "homepage": "https://github.com/flexito/swivelmeta-dcl-sdk/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/flexito/swivelmeta-dcl-sdk/issues",
+    "email": "swivel-ops+SM_DCL_SDK-Issues@swivelmeta.io"
   },
   "files": [
     "dist",
@@ -59,6 +64,7 @@
   },
   "bundleDependencies": [
     "@dcl/ecs-scene-utils",
-    "@dcl/ui-scene-utils"
+    "@dcl/ui-scene-utils",
+    "decentraland-ecs"
   ]
 }

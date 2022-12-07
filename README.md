@@ -1,18 +1,10 @@
 ## SDK Library
 
-This project has the basics to start building your own library for using in Decentraland scenes.
+This project is currently UNDER DEVELOPMENT!!!
 
-The libraries in the [Awesome Repository](https://github.com/decentraland-scenes/Awesome-Repository#Libraries) are available for all to use. We encourage you to create and share your own as well, we'd love to see the community grow and start sharing more reusable solutions to common problems through libraries!
+# Swivel Meta Decentraland SDK Documentation
 
-## Publish
-
-See [Create Libraries](https://docs.decentraland.org/development-guide/create-libraries/) for tips on how to design and develop your library, and for simple instructions for publishing it to NPM.
-
-Below is a template to help you craft documentation for your library, so others know how to use it.
-
-# MyAmazingLibrary Documentation
-
-myAmazingLibrary includes helpful solutions for `< insert use case >` in a Decentraland scene.
+Swivel Meta Decentraland SDK includes helpful solutions for speeding up the process for creating scenes in Decentraland.
 
 ## Install
 
@@ -21,54 +13,51 @@ To use any of the helpers provided by this library:
 1. Install it as an npm package. Run this command in your scene's project folder:
 
    ```
-   npm install myAmazingLibrary
+   npm install npm i swivelmeta-dcl-sdk
    ```
 
 2. Add this line at the start of your game.ts file, or any other TypeScript files that require it:
 
    ```ts
-   import * as magic from 'myAmazingLibrary'
+   import * as sm from "swivelmeta-dcl-sdk";
    ```
 
 ## Usage
 
 ### < use case 1 >
 
-To do `< insert use case >`, add the `MyAmazingComponent` component to the entity.
+To do `dynamically change media`, add the `DynamicMedia` entity to your scene.
 
-MyAmazingComponent requires two arguments when being constructed:
+DynamicMedia requires three arguments when being constructed:
 
-- `start`: Vector3 for the start position
-- `duration`: duration (in seconds)
+- `media`: either a Texture or VideoClip
+- `shape`: shape of the dynamic media, works best with PlaneShape
+- `transform`: the position, rotation, scale of the media
 
-MyAmazingComponent can optionally also take the following argument:
+DynamicMedia can optionally also take the following argument:
 
-- `color`: Color4 value for the color. If not provided, the default value is `Color4.Red()`
+- `name`: name of the entity. If not provided, the default value is `undefined`
 
-This example uses MyAmazingComponent to do `< insert use case >` to an entity over a period of 2 seconds:
+This example uses DynamicMedia to `display a stream`:
 
 ```ts
-import * as magic from 'myAmazingLibrary'
+import * as sm from "swivelmeta-dcl-sdk"
 
-// Create entity
-const box = new Entity()
+// Create entity, passing a VideoClip, a shape, transform, and a name
+const mediaEntity = new DynamicMedia(
+   new VideoClip("https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875"),
+   new PlaneShape(),
+   new Transform(),
+   "mediaEntity"
+)
 
-// Give entity a shape and transform
-box.addComponent(new BoxShape())
-box.addComponent(new Transform())
-
-// Move entity
-box.addComponent(new magic.MyAmazingComponent(new Vector3(1, 1, 1), 2))
-
-// Add entity to engine
-engine.addEntity(box)
 ```
 
-> Note: Be aware that if < other use case >, MyAmazingComponent will < do some other thing >.
+<!-- > Note: Be aware that if < other use case >, MyAmazingComponent will < do some other thing >. -->
 
-### < use case 2 >
+### < use case 2 > 
 
-...
+... Todo ...
 
 ## Copyright info
 

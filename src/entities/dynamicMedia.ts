@@ -1,7 +1,5 @@
 import { setUVsBasic, ui } from "../utilsLib";
 import { clamp } from '@dcl/ecs-scene-utils'
-type MediaFile = Texture | VideoClip;
-
 // import * as ui from '@dcl/ui-scene-utils'
 
 /**
@@ -30,7 +28,7 @@ export class DynamicMedia extends Entity {
     private mediaType?: "video" | "image"
 
     constructor(
-        media: MediaFile, 
+        media: Texture | VideoClip, 
         shape: Shape, 
         transform: TransformConstructorArgs,
         name?:string
