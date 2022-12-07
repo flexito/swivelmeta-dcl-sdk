@@ -1,12 +1,12 @@
-import { ExampleComponent, constant, someFn } from './examples/exampleComponent'
+// import { ExampleComponent, constant, someFn } from './examples/exampleComponent'
 
-export {
-  ExampleComponent,
-  constant,
-  someFn
-}
+// export {
+//   ExampleComponent,
+//   constant,
+//   someFn
+// }
 
-export * from './examples/customSystem'
+// export * from './examples/customSystem'
 
 import { debugMessage, setTimeout, setUVsBasic, setCustomUVs, setBoxUVs } from './utilsLib'
 
@@ -18,6 +18,6 @@ export {
   setBoxUVs 
 }
 
-import { DynamicMedia } from './dynamicMedia'
+import { DynamicMedia } from './entities/dynamicMedia'
 
 export { DynamicMedia }

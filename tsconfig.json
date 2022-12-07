@@ -1,6 +1,7 @@
 {
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "./node_modules/decentraland-builder-scripts/types.d.ts"
   ],
   "exclude": [
     "dist",

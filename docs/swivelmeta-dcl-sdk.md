@@ -9,8 +9,6 @@
 |  Class | Description |
 |  --- | --- |
 |  [DynamicMedia](./swivelmeta-dcl-sdk.dynamicmedia.md) | DynamicMedia will automatically detect whether the media is a video or image and will handle the media accordingly |
-|  [ExampleComponent](./swivelmeta-dcl-sdk.examplecomponent.md) |  |
-|  [TimeSystem](./swivelmeta-dcl-sdk.timesystem.md) |  |
 
 ## Functions
 
@@ -21,11 +19,4 @@
 |  [setCustomUVs(rows, cols, offsetX, offsetY)](./swivelmeta-dcl-sdk.setcustomuvs.md) | setCustomUVs is a function that allows you to set the UVs of a shape to a custom UV space with offsets. |
 |  [setTimeout(delay, callback)](./swivelmeta-dcl-sdk.settimeout.md) | setTimeout is a function that allows you to delay the execution of a function, then removes the entity from the scene. |
 |  [setUVsBasic(rows, cols)](./swivelmeta-dcl-sdk.setuvsbasic.md) | setUVsBasic is a function that allows you to set the UVs of a shape to a basic 0-1 UV space. |
-|  [someFn()](./swivelmeta-dcl-sdk.somefn.md) |  |
-
-## Variables
-
-|  Variable | Description |
-|  --- | --- |
-|  [constant](./swivelmeta-dcl-sdk.constant.md) |  |
 

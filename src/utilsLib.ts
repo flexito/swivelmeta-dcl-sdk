@@ -3,9 +3,12 @@ import * as utils from '@dcl/ecs-scene-utils'
 
 export { ui, utils }
 
-//----------------------------------------------------------------------------------------------------------
-//** --- FUNCTIONS -- **//
-
+export class EnableDisable {
+    public bEnable: boolean;
+    constructor( bEnable: boolean = true ) {
+      this.bEnable = bEnable
+    }
+}
 
 /**
  * Debug message displays a UI prompt with a message and a button to close it.

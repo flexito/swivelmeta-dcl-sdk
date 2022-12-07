@@ -6,15 +6,13 @@
 
 /// <reference types="dcl" />
 
-// @public (undocumented)
-export const constant = "constant";
-
 // @public
 export function debugMessage(message: string): void;
 
 // @public
 export class DynamicMedia extends Entity {
-    constructor(media: Texture | VideoClip, shape: Shape, transform: TransformConstructorArgs, name?: string);
+    // Warning: (ae-forgotten-export) The symbol "MediaFile" needs to be exported by the entry point index.d.ts
+    constructor(media: MediaFile, shape: Shape, transform: TransformConstructorArgs, name?: string);
     // (undocumented)
     addPausePlayVideo(mediaType: "video" | "image"): void;
     // Warning: (ae-forgotten-export) The symbol "infoData" needs to be exported by the entry point index.d.ts
@@ -38,13 +36,6 @@ export class DynamicMedia extends Entity {
     video?: VideoClip;
 }
 
-// @public (undocumented)
-export class ExampleComponent {
-    constructor(testing: boolean);
-    // (undocumented)
-    testing: boolean;
-}
-
 // @public
 export function setBoxUVs(rows: number, cols: number): number[];
 
@@ -56,17 +47,6 @@ export function setTimeout(delay: number, callback: () => void): void;
 
 // @public
 export function setUVsBasic(rows: number, cols: number): number[];
-
-// @public (undocumented)
-export function someFn(): string;
-
-// @public (undocumented)
-export class TimeSystem implements ISystem {
-    // (undocumented)
-    time: number;
-    // (undocumented)
-    update(dt: number): void;
-}
 
 // (No @packageDocumentation comment for this package)
 
