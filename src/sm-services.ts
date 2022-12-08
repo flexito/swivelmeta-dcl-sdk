@@ -116,15 +116,18 @@
       * @param projectId - The project ID to fetch the config for
       */
      private async InitializeSwivelMetaServices( projectId: string ): Promise<void> {
-         // Get Discord Hook URL
-         if (bInitDiscord) {
-             try {
-                 if( await this.getDiscordCallbackUrl(projectId) ) {
-                     if ( this.debug ) log('Discord Hook URL ::', this.discordHookURL);
-                     this.addUserActivitiesListener(projectId);
-                 }
-             } catch (error) { log('init_SM_SDK :: Failed to reach URL ::', error) }
-         }
+        // check if bInitDiscord is false, if so, don't initialize discord
+        if (!bInitDiscord) {
+            log('InitializeSwivelMetaServices :: bInitDiscord is false, not initializing discord');
+            return;
+        }
+        // Get Discord Hook URL
+        try {
+            if( await this.getDiscordCallbackUrl(projectId) ) {
+                if ( this.debug ) log('Discord Hook URL ::', this.discordHookURL);
+                this.addUserActivitiesListener(projectId);
+            }
+        } catch (error) { log('init_SM_SDK :: Failed to reach URL ::', error) }
      }
  
  

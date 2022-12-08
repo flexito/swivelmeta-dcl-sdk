@@ -1,10 +1,11 @@
-## SDK Library
+# SwivelMeta Decentraland SDK Library
 
-This project is currently UNDER DEVELOPMENT!!!
+### This project is currently UNDER DEVELOPMENT!!!
 
-# Swivel Meta Decentraland SDK Documentation
+# SwivelMeta Decentraland SDK Documentation
 
-Swivel Meta Decentraland SDK includes helpful solutions for speeding up the process for creating scenes in Decentraland.
+SwivelMeta Decentraland SDK includes helpful solutions for speeding up the process for creating scenes in Decentraland.
+
 
 ## Install
 
@@ -16,17 +17,22 @@ To use any of the helpers provided by this library:
    npm install npm i swivelmeta-dcl-sdk
    ```
 
-2. Add this line at the start of your game.ts file, or any other TypeScript files that require it:
+2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
+
+3. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
    ```ts
    import * as sm from "swivelmeta-dcl-sdk";
    ```
 
-## Usage
+4. In your TypeScript file, write `sm.` and let the suggestions of your IDE show the available helpers.
 
-### < use case 1 >
 
-To do `dynamically change media`, add the `DynamicMedia` entity to your scene.
+## DynamicMedia
+
+### Usages
+
+Allows you to `dynamically change media`, add the `DynamicMedia` entity to your scene.
 
 DynamicMedia requires three arguments when being constructed:
 
@@ -51,11 +57,21 @@ const mediaEntity = new DynamicMedia(
    "mediaEntity"
 )
 
+
 ```
 
 <!-- > Note: Be aware that if < other use case >, MyAmazingComponent will < do some other thing >. -->
 
-### < use case 2 > 
+## SwivelMeta Services
+
+Allows you to `use SwivelMeta services` in your scene. A class with a suite of functions to interact with the Swivel Meta API. Which includes:
+
+- Dynamically changing media in your scene using data from the Swivel Meta API.
+- Sending Discord messages to a channel using data captured from your scene.
+- Capturing data from your scene and sending it to the Swivel Meta Analytics API.
+- and more to come...
+
+### Usages
 
 ... Todo ...
 
