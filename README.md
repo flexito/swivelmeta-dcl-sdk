@@ -21,9 +21,23 @@ To use any of the helpers provided by this library:
 
 3. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
-   ```ts
-   import * as sm from "swivelmeta-dcl-sdk";
-   ```
+```ts
+import {
+   SwivelMetaServices,
+   DynamicMedia, 
+   debugMessage, 
+   setTimeout, 
+   setUVsBasic, 
+   setCustomUVs, 
+   setBoxUVs 
+} from "swivelmeta-dcl-sdk"
+
+const projectId = "Your Project ID Here" // Example: "SM-DCL-3891"
+const bInitDiscord = false; // initialize discord callback
+const bLoadOnEnter = true; // load media on entering the scene
+
+SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
+```
 
 4. In your TypeScript file, write `sm.` and let the suggestions of your IDE show the available helpers.
 
@@ -47,7 +61,16 @@ DynamicMedia can optionally also take the following argument:
 This example uses DynamicMedia to `display a stream`:
 
 ```ts
-import * as sm from "swivelmeta-dcl-sdk"
+import {
+    SwivelMetaServices,
+    DynamicMedia, 
+    debugMessage, 
+    setTimeout, 
+    setUVsBasic, 
+    setCustomUVs, 
+    setBoxUVs 
+} from "swivelmeta-dcl-sdk"
+
 
 // Create entity, passing a VideoClip, a shape, transform, and a name
 const mediaEntity = new DynamicMedia(
@@ -57,7 +80,20 @@ const mediaEntity = new DynamicMedia(
    "mediaEntity"
 )
 
+/** 
+ * An array of objects that contain the component name and the entity to update
+ * @param {string} component - name of the component to pull data from
+ * @param {Entity} object - entity to update
+*/
+const compEntityPairs =   [
+  { component: "metaTrekkersVideo", object: FisrtFloorVideo },
+  { component: "infoPanel", object: infoPanel },
+  { component: "bEnablePoapClaim", object: bEnablePoapClaim },
+  { component: "dynamicMedia2", object: dynamicMediaEntity2 },
+]
 
+SMService.updateMediaOnSceneLoad(compEntityPairs)
+SMService.updateMediaOnSceneEnter(compEntityPairs)
 ```
 
 <!-- > Note: Be aware that if < other use case >, MyAmazingComponent will < do some other thing >. -->

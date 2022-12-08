@@ -8,16 +8,16 @@
 
 // export * from './examples/customSystem'
 
-import { debugMessage, setTimeout, setUVsBasic, setCustomUVs, setBoxUVs } from './utilsLib'
+import { debugMessage, setTimeout, setUVsBasic, setCustomUVs, setBoxUVs } from './utils/utilsLib'
+import { DynamicMedia } from './entities/dynamicMedia'
+import { SwivelMetaServices } from './utils/sm-services'
 
-export { 
+export {
+  SwivelMetaServices,
+  DynamicMedia, 
   debugMessage, 
   setTimeout, 
   setUVsBasic, 
   setCustomUVs, 
   setBoxUVs 
 }
-
-import { DynamicMedia } from './entities/dynamicMedia'
-
-export { DynamicMedia }

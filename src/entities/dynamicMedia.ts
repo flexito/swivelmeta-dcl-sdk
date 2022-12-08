@@ -1,4 +1,4 @@
-import { setUVsBasic, ui } from "../utilsLib";
+import { setUVsBasic, ui } from "../utils/utilsLib";
 import { clamp } from '@dcl/ecs-scene-utils'
 // import * as ui from '@dcl/ui-scene-utils'
 
