@@ -46,6 +46,8 @@
     "@rollup/plugin-typescript": "^8.3.1",
     "@types/jest": "^27.4.1",
     "decentraland-ecs": "^6.11.9",
+    "@dcl/ecs-scene-utils": "^1.7.5",
+    "@dcl/ui-scene-utils": "^1.8.4",
     "jest": "^27.5.1",
     "rollup": "^2.70.1",
     "rollup-plugin-api-extractor": "^0.2.5",
@@ -61,10 +63,5 @@
     "decentraland-ecs": "^6.11.9",
     "@dcl/ecs-scene-utils": "^1.7.5",
     "@dcl/ui-scene-utils": "^1.8.4"
-  },
-  "bundleDependencies": [
-    "@dcl/ecs-scene-utils",
-    "@dcl/ui-scene-utils",
-    "decentraland-ecs"
-  ]
+  }
 }
