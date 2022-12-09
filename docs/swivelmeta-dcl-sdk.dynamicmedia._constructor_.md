@@ -9,14 +9,14 @@ Constructs a new instance of the `DynamicMedia` class
 <b>Signature:</b>
 
 ```typescript
-constructor(media: MediaFile, shape: Shape, transform: TransformConstructorArgs, name?: string);
+constructor(media: Texture | VideoClip, shape: Shape, transform: TransformConstructorArgs, name?: string);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  media | MediaFile |  |
+|  media | Texture \| VideoClip |  |
 |  shape | Shape |  |
 |  transform | TransformConstructorArgs |  |
 |  name | string | <i>(Optional)</i> |

@@ -9,6 +9,7 @@
 |  Class | Description |
 |  --- | --- |
 |  [DynamicMedia](./swivelmeta-dcl-sdk.dynamicmedia.md) | DynamicMedia will automatically detect whether the media is a video or image and will handle the media accordingly |
+|  [SwivelMetaServices](./swivelmeta-dcl-sdk.swivelmetaservices.md) |  |
 
 ## Functions
 

@@ -5,14 +5,14 @@
 ```ts
 
 /// <reference types="dcl" />
+/// <reference types="env" />
 
 // @public
 export function debugMessage(message: string): void;
 
 // @public
 export class DynamicMedia extends Entity {
-    // Warning: (ae-forgotten-export) The symbol "MediaFile" needs to be exported by the entry point index.d.ts
-    constructor(media: MediaFile, shape: Shape, transform: TransformConstructorArgs, name?: string);
+    constructor(media: Texture | VideoClip, shape: Shape, transform: TransformConstructorArgs, name?: string);
     // (undocumented)
     addPausePlayVideo(mediaType: "video" | "image"): void;
     // Warning: (ae-forgotten-export) The symbol "infoData" needs to be exported by the entry point index.d.ts
@@ -47,6 +47,68 @@ export function setTimeout(delay: number, callback: () => void): void;
 
 // @public
 export function setUVsBasic(rows: number, cols: number): number[];
+
+// @public (undocumented)
+export class SwivelMetaServices extends Entity {
+    constructor(projectId: string, debug?: boolean, bInitializeDiscord?: boolean, bLoadOnEnter?: boolean);
+    // (undocumented)
+    addUserActivitiesListener(projectId: string): void;
+    // (undocumented)
+    apiURL: string;
+    // (undocumented)
+    bInitializeDiscord: boolean;
+    // (undocumented)
+    bLoadOnEnter: boolean;
+    // (undocumented)
+    componentObjectPairs: {
+        component: string;
+        object: any;
+    }[];
+    // (undocumented)
+    debug: boolean;
+    // (undocumented)
+    discordHookURL: string;
+    // (undocumented)
+    display_name?: string;
+    // (undocumented)
+    endTime?: Date;
+    // (undocumented)
+    getCurrentUtcEpochTime(): string;
+    // (undocumented)
+    guest?: boolean;
+    // (undocumented)
+    InitializeVisitorData(projectId: string): Promise<void>;
+    // (undocumented)
+    once: boolean;
+    // (undocumented)
+    parcels?: string;
+    // (undocumented)
+    platform?: string;
+    // (undocumented)
+    projectId: string;
+    // (undocumented)
+    realm?: string;
+    // (undocumented)
+    room_id?: string;
+    // (undocumented)
+    sceneName?: string;
+    // (undocumented)
+    sendUserDetailsNotification(operationType: any, userId: any): Promise<void>;
+    // (undocumented)
+    startTime: Date;
+    // (undocumented)
+    updateMediaOnSceneEnter(assign: {
+        component: string;
+        object: any;
+    }[]): Promise<void>;
+    // (undocumented)
+    updateMediaOnSceneLoad(assign: {
+        component: string;
+        object: any;
+    }[], debug?: boolean): Promise<void>;
+    // (undocumented)
+    wallet_address?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 
