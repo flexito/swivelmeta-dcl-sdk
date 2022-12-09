@@ -14,7 +14,7 @@ To use any of the helpers provided by this library:
 1. Install it as an npm package. Run this command in your scene's project folder:
 
    ```
-   npm install npm i swivelmeta-dcl-sdk
+   dcl install swivelmeta-dcl-sdk
    ```
 
 2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
@@ -22,25 +22,51 @@ To use any of the helpers provided by this library:
 3. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
 ```ts
-import {
-   SwivelMetaServices,
-   DynamicMedia, 
-   debugMessage, 
-   setTimeout, 
-   setUVsBasic, 
-   setCustomUVs, 
-   setBoxUVs 
-} from "swivelmeta-dcl-sdk"
+import * as sm from "node_modules/swivelmeta-dcl-sdk/dist/index"
 
 const projectId = "Your Project ID Here" // Example: "SM-DCL-3891"
 const bInitDiscord = false; // initialize discord callback
 const bLoadOnEnter = true; // load media on entering the scene
 
-SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
+SMService = new sm.SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
 ```
 
 4. In your TypeScript file, write `sm.` and let the suggestions of your IDE show the available helpers.
 
+5. Additionally you can add these lines at the start of your `game.ts` file. This will allow you to use the helpers without the `sm.` prefix:
+
+```ts
+
+import {
+    SwivelMetaServices,
+    DynamicMedia, 
+    debugMessage, 
+    setTimeout, 
+    setUVsBasic, 
+    setCustomUVs, 
+    setBoxUVs 
+} from "node_modules/swivelmeta-dcl-sdk/dist/index"
+
+```
+
+6. If you want to import using a shorter path you can add this to your `tsconfig.json` file:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "swivelmeta-dcl-sdk": [
+        "node_modules\\swivelmeta-dcl-sdk\\dist\\index.d.ts"
+      ]
+    }
+  }
+}
+```
+
+#### EXAMPLE:
+```ts
+import * as sm from "swivelmeta-dcl-sdk"
+```
 
 ## DynamicMedia
 
@@ -69,7 +95,7 @@ import {
     setUVsBasic, 
     setCustomUVs, 
     setBoxUVs 
-} from "swivelmeta-dcl-sdk"
+} from "node_modules/swivelmeta-dcl-sdk/dist/index"
 
 
 // Create entity, passing a VideoClip, a shape, transform, and a name
@@ -91,6 +117,8 @@ const compEntityPairs =   [
   { component: "bEnablePoapClaim", object: bEnablePoapClaim },
   { component: "dynamicMedia2", object: dynamicMediaEntity2 },
 ]
+
+SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
 
 SMService.updateMediaOnSceneLoad(compEntityPairs)
 SMService.updateMediaOnSceneEnter(compEntityPairs)
