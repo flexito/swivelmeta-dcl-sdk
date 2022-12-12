@@ -36,6 +36,13 @@ export class DynamicMedia extends Entity {
     video?: VideoClip;
 }
 
+// @public (undocumented)
+export class EnableDisable {
+    constructor(bEnable?: boolean);
+    // (undocumented)
+    bEnable: boolean;
+}
+
 // @public
 export function setBoxUVs(rows: number, cols: number): number[];
 
