@@ -106,22 +106,11 @@ const mediaEntity = new DynamicMedia(
    "mediaEntity"
 )
 
-/** 
- * An array of objects that contain the component name and the entity to update
- * @param {string} component - name of the component to pull data from
- * @param {Entity} object - entity to update
-*/
-const compEntityPairs =   [
-  { component: "metaTrekkersVideo", object: FisrtFloorVideo },
-  { component: "infoPanel", object: infoPanel },
-  { component: "bEnablePoapClaim", object: bEnablePoapClaim },
-  { component: "dynamicMedia2", object: dynamicMediaEntity2 },
-]
+// Update the mediaEntity with a new VideoClip
+mediaEntity.updateMedia(new VideoClip("https://player.vimeo.com/external/example-2.m3u8"))
 
-SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
-
-SMService.updateMediaOnSceneLoad(compEntityPairs)
-SMService.updateMediaOnSceneEnter(compEntityPairs)
+// Update the mediaEntity with a new Texture
+mediaEntity.updateMedia(new Texture("https://example.com/example-2.png"))
 ```
 
 <!-- > Note: Be aware that if < other use case >, MyAmazingComponent will < do some other thing >. -->
@@ -138,7 +127,61 @@ Allows you to `use SwivelMeta services` in your scene. A class with a suite of f
 ### Usages
 
 ... Todo ...
+1. Dynamically change media in your scene when the scene loads.
 
+```ts
+import {
+    SwivelMetaServices,
+    DynamicMedia, 
+    debugMessage, 
+    setTimeout, 
+    setUVsBasic, 
+    setCustomUVs, 
+    setBoxUVs 
+} from "node_modules/swivelmeta-dcl-sdk/dist/index"
+
+
+// Create entity, passing a VideoClip, a shape, transform, and a name
+const mediaEntity = new DynamicMedia(
+   new VideoClip("https://player.vimeo.com/external/552481870.m3u8?s=c312c8533f97e808fccc92b0510b085c8122a875"),
+   new PlaneShape(),
+   new Transform(),
+   "mediaEntity"
+)
+
+/** 
+ * An array of objects that contain the component name and the entity to update
+ * @param {string} component - name of the component to pull data from
+ * @param {Entity} object - entity to update
+*/
+const compEntityPairs =   [
+  { component: "metaTrekkersVideo", object: FisrtFloorVideo },
+  { component: "infoPanel", object: infoPanel },
+  { component: "bEnablePoapClaim", object: bEnablePoapClaim },
+  { component: "dynamicMedia2", object: dynamicMediaEntity2 },
+]
+
+SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
+
+SMService.updateMediaOnSceneLoad(compEntityPairs)
+```
+
+2. Dynamically change media in your scene when a user enters the scene.
+
+```ts
+SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
+
+SMService.updateMediaOnSceneEnter(compEntityPairs)
+```
+
+3. Dynamically change media in your scene when the scene loads and when a user enters the scene. Useful when trying to refresh the scene without having to refresh the webpage.
+   
+```ts
+SMService = new SwivelMetaServices(projectId, false, bInitDiscord, bLoadOnEnter)
+
+SMService.updateMediaOnSceneLoad(compEntityPairs)
+SMService.updateMediaOnSceneEnter(compEntityPairs)
+```
 ## Copyright info
 
 This scene is protected with a standard Apache 2 licence. See the terms and conditions in the [LICENSE](/LICENSE) file.
