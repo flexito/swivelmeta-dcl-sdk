@@ -1,21 +1,11 @@
-import game from '../../../game'
+const baseID = 'appJbqbiBRfWW5TlP' // project ID
+const tableVotes = 'tbllAWTcHOQMu59Sj' // table ID for record tracking
+const voterView_1 = 'fields%5B%5D=fld7y7JC6P7NLTJPc&view=viwWdhuZCGUlBQNm0'
+const voterView_2 = 'fields%5B%5D=fld7y7JC6P7NLTJPc&view=viwjh0v9wbuv5ktq7'
+const tableCount = 'tblELFxOW9NT48sRS' // for keeping track of the count
+const recordID_1 = 'rec9Drd4KgkD5e3JH' // record ID for VOTE_ID 1
+const recordID_2 = 'recYTOkptzJCzVFLl' // record ID for VOTE_ID 2
 
-// const baseID = 'appJbqbiBRfWW5TlP' // project ID
-// const tableVotes = 'tbllAWTcHOQMu59Sj' // table ID for record tracking
-// const voterView_1 = 'fields%5B%5D=fld7y7JC6P7NLTJPc&view=viwWdhuZCGUlBQNm0'
-// const voterView_2 = 'fields%5B%5D=fld7y7JC6P7NLTJPc&view=viwjh0v9wbuv5ktq7'
-// const tableCount = 'tblELFxOW9NT48sRS' // for keeping track of the count
-// const recordID_1 = 'rec9Drd4KgkD5e3JH' // record ID for VOTE_ID 1
-// const recordID_2 = 'recYTOkptzJCzVFLl' // record ID for VOTE_ID 2
-
-
-const baseID = game.airtable.baseId // project ID
-const tableVotes = game.airtable.tableVotes // table ID for record tracking
-const tableCount = game.airtable.tableCounter // for keeping track of the count
-const voterView_1 = game.airtable.view1 // view of VOTE_ID 1
-const voterView_2 = game.airtable.view2 // view of VOTE_ID 2
-const recordID_1 = game.airtable.countId1 // record ID for VOTE_ID 1
-const recordID_2 = game.airtable.countId2 // record ID for VOTE_ID 2
 
 var voterBase = `https://api.airtable.com/v0/${baseID}/${tableVotes}?`
 const countBase = `https://api.airtable.com/v0/${baseID}/${tableCount}`
