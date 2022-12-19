@@ -4,6 +4,12 @@ import * as utils from '@dcl/ecs-scene-utils'
 
 export { ui, utils }
 
+/**
+ * EnableDisable is a class that holds a boolean value that can be used to enable or disable a component.
+ * 
+ * @param bEnable - The boolean value to be used to enable or disable a component, true by default.
+ * @public
+ */
 export class EnableDisable {
     public bEnable: boolean;
     constructor( bEnable: boolean = true ) {
