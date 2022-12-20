@@ -23,5 +23,6 @@
     },
     "baseUrl": ".",
   },
-  "extends": "./node_modules/decentraland-ecs/types/tsconfig.json"
+  "extends": "./node_modules/decentraland-ecs/types/tsconfig.json",
+  "allowJs": true,
 }

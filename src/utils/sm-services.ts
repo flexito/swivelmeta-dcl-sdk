@@ -139,8 +139,11 @@ export class SwivelMetaServices extends Entity {
                 // Assemble visitor data into a JSON object
                 const assembledBody = this.assembleVisitorData(postBody);
                 // Send visitor data to Swivel Meta Cloud
-                await this.submitFetch( assembledBody );
+                const response = await this.submitFetch( assembledBody );
                 this.debugLog("onEnterSceneObservable :: assembleVisitorData ::", assembledBody);
+                if ( !response ) {
+                    this.debugLog("🚀 -- InitializeVisitorData -- Ln 145 -- response", response);
+                }
             }
     }
 
@@ -203,7 +206,7 @@ export class SwivelMetaServices extends Entity {
                 headers: {
                     Accept:  "application/json, text/plain, image/*, */*",
                     Origin: "https://play.decentraland.org",
-                    ContentType: "application/json",
+                    Host: "prod-swivelmeta.com",
                 },
                 body: request.toString(),
             });
@@ -270,6 +273,7 @@ export class SwivelMetaServices extends Entity {
         return this.fetchQuery(request)
         .then((response) => response.json())
         .then((res) => {
+            this.debugLog('getConfigData :: res ::', res);
             if (res.data) { return res.data; } 
             else { return res; }
         }).catch((error) => {
@@ -585,7 +589,7 @@ export class SwivelMetaServices extends Entity {
             this.debugLog("updateMediaOnSceneLoad :: element.component :: ", currentComp);
             
             // skip this iteration and continue loop, if the current media is empty
-            if ( currentMedia === "" ) continue;
+            if ( currentMedia === "" ) {continue;}
     
             // check if the current object is an entity
             if ( currentEntity instanceof Entity ) {
