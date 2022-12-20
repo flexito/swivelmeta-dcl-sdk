@@ -1,37 +1,102 @@
-// import * as crypto from '@dcl/crypto-scene-utils'
 import { getUserAccount } from "@decentraland/EthereumController";
 import * as eth from 'eth-connect'
-import * as l2 from '@dcl/l2-scene-utils'
-import { matic } from '@dcl/l2-scene-utils'
-
-
-// import * as utils from '@dcl/ecs-scene-utils'
 import * as ui from '@dcl/ui-scene-utils'
-import { getUserData, UserData } from "@decentraland/Identity"
+import { createComponents, delay} from '../marketplace/components/index'
 
-// import { createMANAComponent } from '../marketplace/components/mana'
-import { createComponents, Providers, delay} from '../marketplace/components/index'
-// import {  } from '../marketplace/components/market'
 
-let tipBoxModel = new GLTFShape("resources/models/tipjar/tip_jar.glb");
-let defaultTransactionAmount = 0.1;
 
-export class TipBox extends Entity {
+/**
+ * DonationBox is a class that allows users to donate MANA to a specified wallet address.
+ * @class DonationBox
+ * @extends Entity
+*/
+export class DonationBox extends Entity {
+
+    /**
+     * receivingWalletAddress is a variable that holds the address of the wallet that will receive the funds.
+     * @type {string}
+    */
     receivingWalletAddress: string
-    defaultAmount: number
+    /**
+     * defaultDonationAmount is the default amount that will be used for donations
+     * if no other amount is specified.
+     * @type {number}
+     * @default 0.1 MANA
+    */
+    defaultDonationAmount: number = 0.1
+    /**
+     * tipAmount is a number representing the amount of tip to be added to a bill.
+     * @type {number}
+    */ 
     tipAmount: number
+    /**
+     * fromAddress is the address of the user that is donating.
+     * @type {string}
+     */
     fromAddress: string
+    /**
+     * position is the position, rotation, and scale of the DonationBox in the scene.
+     * @type {TransformConstructorArgs}
+     */
     position: TransformConstructorArgs
+    /**
+     * uiPanel is the UI panel that will be displayed when the DonationBox is used.
+     * @type {ui.CustomPrompt}
+     */
     uiPanel: ui.CustomPrompt
-    donationName: string = "MetaTrekkers";
+    /**
+     * donationName is the name of the user/entity that will receive the donation.
+     * @type {string}
+     * @default "DonationName"
+     */
+    donationName: string = "DonationName"
 
-    mana: any;
+    /**
+     * mana is the mana component that will be used to send the donation.
+     */
+    private mana: any;
+    /**
+     * balance is the current balance of the user. Displayed in BigNumber format.
+     * @type {number}
+     */
     balance: number
 
+    /**
+     * model is the GLTFShape that will be used for the DonationBox.
+     * @type {GLTFShape}
+     */
+    model: GLTFShape
+
+    /**
+     * hoverText is the text that will be displayed when the user hovers over the DonationBox.
+     * @type {string}
+     * @default "Donate"
+     */
+    hoverText: string = "Donate"
+
+    /**
+     * actionButton is the button that will be used to interact with the DonationBox.
+     * @type {ActionButton}
+     * @default ActionButton.PRIMARY
+     */
+    actionButton: ActionButton = ActionButton.PRIMARY
+
+    /**
+     * actionDistance is the distance at which the user can interact with the DonationBox.
+     * @type {number}
+     * @default 7
+     */
+    actionDistance: number = 7
 
 
-
+    /**
+     * The constructor of the DonationBox class.
+     * @param model The GLTFShape that will be used for the DonationBox.
+     * @param position The position, rotation, and scale of the DonationBox in the scene.
+     * @param receivingWalletAddress The address of the wallet that will receive the funds.
+     */
     constructor(
+        model: GLTFShape,
         position: TransformConstructorArgs,
         receivingWalletAddress: string,
     ) {
@@ -45,11 +110,12 @@ export class TipBox extends Entity {
             true
         )
 
+        this.model = model;
         this.position = position;
-        this.defaultAmount = defaultTransactionAmount;
+        this.defaultDonationAmount;
         this.receivingWalletAddress = receivingWalletAddress;
 
-        this.addComponent(tipBoxModel)
+        this.addComponent(this.model)
         this.addComponent(this.position)
 
         this.initialize();
@@ -59,35 +125,29 @@ export class TipBox extends Entity {
                 this.openUI();
             },
             {
-                button: ActionButton.PRIMARY,
-                hoverText: "Donate",
-                distance: 7
+                button: this.actionButton,
+                hoverText: this.hoverText,
+                distance: this.actionDistance
             }
         ))
     }
 
     public async initialize(): Promise<void> {
-        log("Initializing TipBox")
-        const { mana, store } = await createComponents();
+        log("Initializing DonationBox")
+        const { mana } = await createComponents();
         let currentBalance: any;
         let balance: any;
 
         this.mana = mana;
         this.fromAddress = await getUserAccount();
-
-        // // Get current balance of user
-        // currentBalance = await matic.balance(this.fromAddress);
-        // log("currentBalance: ", currentBalance)
         
         balance = await mana.balance();
-        currentBalance = +eth.fromWei(balance, "ether")
-        log('user balance: ',currentBalance, 'MANA')
-        // log('user balance big: ', +balance, 'MANA')
+        currentBalance = +eth.fromWei(balance, "ether");
+        log('user balance: ',currentBalance, 'MANA');
 
         this.balance = currentBalance;
 
-        const { contract, manaConfig } = await mana.getContract();
-        // log("mana contract: ", contract)
+        const { manaConfig } = await mana.getContract();
         // log("manaConfig: ", manaConfig)
 
         const allowance = await mana.isApproved(manaConfig.address)
@@ -99,8 +159,7 @@ export class TipBox extends Entity {
 
     public openUI(): void {
         this.uiPanel.show()
-        let posY = 120;
-        let tipAmountText = this.defaultAmount.toString();
+        let tipAmountText = this.defaultDonationAmount.toString();
 
         // Add text to UI
         let defaultText = this.uiPanel.addText(`Donate to ${this.donationName}`, 0, 100, Color4.White(), 30);
@@ -141,19 +200,19 @@ export class TipBox extends Entity {
         
 
         // get MANA contract
-        const { contract, manaConfig } = await this.mana.getContract();
+        const { manaConfig } = await this.mana.getContract();
 
         const allowance = await this.mana.isApproved(manaConfig.address)
         log("allowance :", allowance);
 
-        // TODO: CHECK IF USER HAS ENOUGH MONEY
+        // CHECK IF USER HAS ENOUGH MONEY
         if (+tipAmount > +this.balance) {
             new ui.OkPrompt("Sorry, you do not have enough MANA", undefined, undefined, true);
             return;
         }
 
 
-        // TODO: CHECK IF USER HAS GIVEN PERMISSION TO TRANSFER MANA
+        // CHECK IF USER HAS GIVEN PERMISSION TO TRANSFER MANA
         log( +tipAmount > 0 && +tipAmount > +allowance )
         if ( +tipAmount > 0 && +tipAmount > +allowance ) {
 
@@ -201,7 +260,7 @@ export class TipBox extends Entity {
 
         if ( +tipAmount > 0) {
 
-            // TODO: TRANSFER MANA FROM USER TO THE TIP RECEIVING_WALLET_ADDRESS
+            // TRANSFER MANA FROM USER TO THE TIP RECEIVING_WALLET_ADDRESS
             new ui.OptionPrompt(
                 "",
                 `You are about send ${tipAmount} MANA`,

@@ -1,4 +1,3 @@
-import * as dclTx from "decentraland-transactions";
 
 // export const allCollections = async () => {
 //   return fetchGraph({
@@ -48,7 +47,9 @@ export const collection = async (collectionURN: string, network?: "matic" | "eth
     },
     query: `query Wearables($first: Int, $skip: Int, $urn: String) {\ncollections(first: $first, skip: $skip, where:{urn: $urn}) {\nid\nname\nisApproved\nowner\nurn\nitems {\nmetadata{wearable{name}}\nimage\nprice\nrarity\navailable\nmaxSupply\nblockchainId\nurn\n}\n}\n}`,
   }, 
-  network, test);
+  network, 
+  // test
+  );
   const json = await result.json();
 //   log("fetch collectionURN: ", json);
   if (json.data) {
@@ -82,17 +83,17 @@ export const collection = async (collectionURN: string, network?: "matic" | "eth
 async function fetchGraph(
     request: Object, 
     network?: "matic" | "eth",
-    test: boolean = false,
+    // test: boolean = false,
 ) {
     let url = network === "matic" ? 
     "https://api.thegraph.com/subgraphs/name/decentraland/collections-matic-mainnet" :
     "https://thegraph.com/explorer/subgraph/decentraland/collections-ethereum-mainnet";
 
-    if (test) {
-        url = network === "matic" ? 
-        "https://thegraph.com/explorer/subgraph/decentraland/collections-matic-mumbai" : 
-        "https://thegraph.com/explorer/subgraph/decentraland/collections-ethereum-ropsten";
-    }
+    // if (test) {
+    //     url = network === "matic" ? 
+    //     "https://thegraph.com/explorer/subgraph/decentraland/collections-matic-mumbai" : 
+    //     "https://thegraph.com/explorer/subgraph/decentraland/collections-ethereum-ropsten";
+    // }
     return fetch(url, {
         method: "POST",
         body: JSON.stringify(request),

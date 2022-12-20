@@ -22,14 +22,14 @@ export function createMANAComponent({
   }
 
   async function balance() {
-    const { manaConfig, contract } = await getContract();
+    const { contract } = await getContract();
     const res = await contract.balanceOf(fromAddress);
 
     return res;
   }
 
   async function isApproved(spenderAddress: string) {
-    const { manaConfig, contract } = await getContract();
+    const { contract } = await getContract();
     const res = await contract.allowance(fromAddress, spenderAddress);
 
     return +res;

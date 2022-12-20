@@ -11,7 +11,6 @@ import * as utils from "@dcl/ecs-scene-utils";
 
 
 
-
 export async function createComponents(){
     /* 
     * A Provider to reads from the blockchain.
@@ -57,15 +56,6 @@ export async function createComponents(){
 
 export async function buy(collectionId: string, blockchainId: number, price: number) {
     log("buy", collectionId, blockchainId, price);
-
-        // -- DOESN'T WORK FOR MATIC
-    // executeTask(async () => {
-    //     await crypto.marketplace.executeOrder(
-    //         collectionId,
-    //         blockchainId,
-    //         price
-    //           )
-    // });
     
         // -- MATIC BUY FUNCTION
 
