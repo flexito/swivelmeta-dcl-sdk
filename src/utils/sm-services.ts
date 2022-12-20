@@ -765,6 +765,8 @@ export class SwivelMetaServices extends Entity {
 
     /**
      * A function to log debug messages. Only logs if the debug flag is set to true.
+     * @param message - The message to log.
+     * @param args - The arguments to log.
      */
     private debugLog( message: string, ...args: any[] ) {
         if ( this.debug ) {

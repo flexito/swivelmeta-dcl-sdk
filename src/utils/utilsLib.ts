@@ -2,7 +2,21 @@ import * as ui from '@dcl/ui-scene-utils'
 // import { OkPrompt } from '@dcl/ui-scene-utils'
 import * as utils from '@dcl/ecs-scene-utils'
 
-export { ui, utils }
+export { ui, utils };
+
+
+/**
+ * A function to log debug messages. Only logs if the debug flag is set to true.
+ * 
+ * @param debug - The debug flag, true by default.
+ * @param message - The message to log.
+ * @param args - The arguments to log.
+*/
+export const debugLog = ( debug: boolean = true, message: string, ...args: any[] ) => {
+    if ( debug ) {
+        log(message, ...args);
+    }
+}
 
 /**
  * EnableDisable is a class that holds a boolean value that can be used to enable or disable a component.
@@ -16,6 +30,7 @@ export class EnableDisable {
       this.bEnable = bEnable
     }
 }
+
 
 /**
  * Debug message displays a UI prompt with a message and a button to close it.
