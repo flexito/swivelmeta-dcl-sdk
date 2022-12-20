@@ -4,18 +4,13 @@
 
 ## SwivelMetaServices.addUserActivitiesListener() method
 
+Add the listener for the user's activities. Like when the user enters the scene or leaves the scene.
+
 <b>Signature:</b>
 
 ```typescript
-addUserActivitiesListener(projectId: string): void;
+addUserActivitiesListener(): void;
 ```
-
-## Parameters
-
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  projectId | string |  |
-
 <b>Returns:</b>
 
 void

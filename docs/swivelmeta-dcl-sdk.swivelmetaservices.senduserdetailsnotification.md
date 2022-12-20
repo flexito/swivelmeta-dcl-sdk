@@ -4,6 +4,8 @@
 
 ## SwivelMetaServices.sendUserDetailsNotification() method
 
+Send a notification to the Discord webhook with the user's details and the action/activity they performed.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +16,8 @@ sendUserDetailsNotification(operationType: any, userId: any): Promise<void>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  operationType | any |  |
-|  userId | any |  |
+|  operationType | any | The operation type to send to the Discord webhook. This could be 'entered' or 'left' the scene or claiming a POAP. |
+|  userId | any | The user ID to send to the Discord webhook. |
 
 <b>Returns:</b>
 
