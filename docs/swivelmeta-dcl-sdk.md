@@ -9,8 +9,8 @@
 |  Class | Description |
 |  --- | --- |
 |  [DynamicMedia](./swivelmeta-dcl-sdk.dynamicmedia.md) | DynamicMedia will automatically detect whether the media is a video or image and will handle the media accordingly |
-|  [EnableDisable](./swivelmeta-dcl-sdk.enabledisable.md) |  |
-|  [SwivelMetaServices](./swivelmeta-dcl-sdk.swivelmetaservices.md) |  |
+|  [EnableDisable](./swivelmeta-dcl-sdk.enabledisable.md) | EnableDisable is a class that holds a boolean value that can be used to enable or disable a component. |
+|  [SwivelMetaServices](./swivelmeta-dcl-sdk.swivelmetaservices.md) | Swivel Meta Services, a class used to interact with Swivel Meta API. Allows you to fetch data from Swivel Meta API, update components, and send user data to Swivel Meta Cloud for analytics. |
 
 ## Functions
 

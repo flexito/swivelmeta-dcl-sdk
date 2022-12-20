@@ -92,8 +92,7 @@ export class SwivelMetaServices extends Entity {
      * Initialize Swivel Meta SDK. This function will get the discordHookUrl from Swivel Meta API 
      * then add a listener to the scene which will ping your discord and send the user details to Swivel Meta Cloud
      * 
-     * @param projectId - The project ID to fetch the config for
-     * @private
+     * @param projectId - The project ID to fetch the configuration for.
      */
     private async InitializeSwivelMetaServices( projectId: string ): Promise<void> {
         // Get userData
@@ -140,8 +139,11 @@ export class SwivelMetaServices extends Entity {
                 // Assemble visitor data into a JSON object
                 const assembledBody = this.assembleVisitorData(postBody);
                 // Send visitor data to Swivel Meta Cloud
-                await this.submitFetch( assembledBody );
+                const response = await this.submitFetch( assembledBody );
                 this.debugLog("onEnterSceneObservable :: assembleVisitorData ::", assembledBody);
+                if ( !response ) {
+                    this.debugLog("🚀 -- InitializeVisitorData -- Ln 145 -- response", response);
+                }
             }
     }
 
@@ -149,8 +151,8 @@ export class SwivelMetaServices extends Entity {
     /**
      * Get the Discord Hook URL from Swivel Meta API.
      * 
-     * @param projectName The project ID to pull the Discord Callback Url for.
-     * @returns 
+     * @param projectName - The project ID to pull the Discord Callback Url for.
+     * @returns Promise<string> - The Discord Hook URL.
      */
     private getDiscordCallbackUrl(projectName: string): Promise<string> {
         return new Promise(async (resolve) =>{
@@ -194,7 +196,7 @@ export class SwivelMetaServices extends Entity {
      * Creates a new fetch request to the Swivel Meta API. Used to query the API for data.
      * 
      * @param request - The request object to send to the API.
-     * @returns The payload for the request.
+     * @returns - The payload for the request.
     */
     private async fetchQuery( request: Object ): Promise<Response> {
         return fetch(
@@ -202,17 +204,26 @@ export class SwivelMetaServices extends Entity {
             {
                 method: "POST",
                 headers: {
-                    "Accept":  "application/json, text/plain, image/*, */*",
+                    Accept:  "application/json, text/plain, image/*, */*",
+                    Origin: "https://play.decentraland.org",
+                    Host: "prod-swivelmeta.com",
                 },
                 body: request.toString(),
-        });
+            });
     }
+
+    /** Use Decentraland built in fetch function to fetch data from the Swivel API.
+     * Url: https://prod-swivelmeta.com/core2/query
+     * Method: POST
+     * Allow Headers: Accept, Origin
+     * Origin: https://play.decentraland.org
+    */
 
 
     /**
      * Send a request to the Swivel Meta Analytics to store the visitor data.
      * 
-     * @param postBody The body of the request to send to the Swivel Meta API.
+     * @param postBody - The body of the request to send to the Swivel Meta API.
      */
     private async submitFetch( postBody: any ): Promise<boolean>{
         try {
@@ -248,7 +259,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Fetches the config data from the Swivel Meta API.
      * @param projectId - The project ID to fetch the config for.
-     * @returns The config data in JSON format.
+     * @returns - The config data in JSON format.
  */
     private async getConfigData( projectId: string ) {
         // Assemble request to get config data
@@ -262,6 +273,7 @@ export class SwivelMetaServices extends Entity {
         return this.fetchQuery(request)
         .then((response) => response.json())
         .then((res) => {
+            this.debugLog('getConfigData :: res ::', res);
             if (res.data) { return res.data; } 
             else { return res; }
         }).catch((error) => {
@@ -279,7 +291,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Send a notification to the Discord webhook.
      * 
-     * @param requestData The data to send to the Discord webhook.
+     * @param requestData - The data to send to the Discord webhook.
      */
     private sendDiscordNotification(requestData: any): Promise<any> {
         return new Promise(async (resolve): Promise<void> => {
@@ -312,8 +324,8 @@ export class SwivelMetaServices extends Entity {
     /**
      * Send discord notification of the amount of MANA being transferred and the wallet address receiving the MANA.
      * 
-     * @param amount The amount of MANA to transferred.
-     * @param address The wallet address receiving the MANA.
+     * @param amount - The amount of MANA to transferred.
+     * @param address - The wallet address receiving the MANA.
      */
     private transferringTipNotificationDiscord(amount: any, address: string): void {
         let message = `${this.getCurrentUtcEpochTime()}Tip of ${amount} MANA transferring to ${address}`;
@@ -327,7 +339,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Send discord notification of successfully transaction completion
      * 
-     * @param address The wallet address that received the MANA.
+     * @param address - The wallet address that received the MANA.
      */
     private transferTipCompletionNotificationDiscord(address: string): void {
         let message = `${this.getCurrentUtcEpochTime()}Tip successfully transferred to ${address}`;
@@ -341,7 +353,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Send a general notification to the Discord webhook. This is used for sending miscellaneous notifications.
      * 
-     * @param message The message to send to the Discord webhook.
+     * @param message - The message to send to the Discord webhook.
      */
     private generalNotificationDiscord(message: any): void {
         message = this.getCurrentUtcEpochTime().concat(message);
@@ -355,7 +367,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Get the current date and time in UTC epoch time format.
      * 
-     * @returns The current date and time in UTC epoch time format.
+     * @returns - The current date and time in UTC epoch time format.
      */
     public getCurrentUtcEpochTime(): string {
         let currentTimeStamp = Math.round(Date.now() / 1000);
@@ -370,8 +382,8 @@ export class SwivelMetaServices extends Entity {
     /**
      * Send a notification to the Discord webhook with the user's details and the action/activity they performed.
      * 
-     * @param operationType The operation type to send to the Discord webhook. This could be 'entered' or 'left' the scene or claiming a POAP.
-     * @param userId The user ID to send to the Discord webhook.
+     * @param operationType - The operation type to send to the Discord webhook. This could be 'entered' or 'left' the scene or claiming a POAP.
+     * @param userId - The user ID to send to the Discord webhook.
      */
     public async sendUserDetailsNotification(operationType: any, userId: any): Promise<void> {
         const userData = this.userData;
@@ -448,7 +460,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Get scene and user details to assemble into a visitor data object. Used for sending visitor data to Swivel Meta Analytics.
      * 
-     * @returns VisitorData
+     * @returns VisitorData - The data object that contains all the visitor data that is collected.
      */
     private async getVisitorDataBody(): Promise<VisitorData> {
         let userData: any = this.userData;
@@ -476,10 +488,9 @@ export class SwivelMetaServices extends Entity {
     /**
      * Assembles visitor data to be sent to Swivel Meta Analytics Service.
      * 
-     * @param visitor Data of the user and scene details.
-     * @returns Stringified visitor data.
+     * @param visitor - Data of the user and scene details.
+     * @returns - Stringified visitor data.
      * 
-     * @private
      */
     private assembleVisitorData( visitor: VisitorData ) {
         
@@ -510,7 +521,9 @@ export class SwivelMetaServices extends Entity {
     /**
      * Get the Swivel Meta Config Data from the Swivel Meta API.
      * 
-     * @returns Swivel Meta Config Data
+     * @returns - Swivel Meta Config Data
+     * @throws - Error if the config data is undefined.
+     * 
      * @public
      */
     public async parseConfigData(): Promise<SwivelMetaConfig> {
@@ -545,8 +558,8 @@ export class SwivelMetaServices extends Entity {
     /**
      * This function is used to update the media when the scene load.
      * 
-     * @param assign The pairing of, components to be assigned to the entities.
-     * @param debug Debug mode, default is false.
+     * @param assign - The pairing of, components to be assigned to the entities.
+     * @param debug - Debug mode, default is false.
      * 
      * @example //Usage example
      * const componentEntityPairs = [ { component: "mainVideoScreen", object: videoScreen }, { component: "ExampleComponent2", object: ExampleDynamicMedia2 } ];
@@ -576,7 +589,7 @@ export class SwivelMetaServices extends Entity {
             this.debugLog("updateMediaOnSceneLoad :: element.component :: ", currentComp);
             
             // skip this iteration and continue loop, if the current media is empty
-            if ( currentMedia === "" ) continue;
+            if ( currentMedia === "" ) {continue;}
     
             // check if the current object is an entity
             if ( currentEntity instanceof Entity ) {
@@ -726,7 +739,7 @@ export class SwivelMetaServices extends Entity {
     /**
      * Update the DynamicMedia when a user enters the parcel.
      * 
-     * @param assign The pairing of, components to be assigned to the entities.
+     * @param assign - The pairing of, components to be assigned to the entities.
      * 
      * @example //Usage example
      * const componentEntityPairs = [
@@ -763,7 +776,7 @@ export class SwivelMetaServices extends Entity {
 
 
 /**
- * @fileoverview This file contains the types for the Swivel Meta Config.
+ * @fileoverview - This file contains the types for the Swivel Meta Config.
  */
 
 

@@ -7,6 +7,8 @@
 /// <reference types="dcl" />
 /// <reference types="env" />
 
+import { UserData } from '@decentraland/Identity';
+
 // @public
 export function debugMessage(message: string): void;
 
@@ -36,7 +38,7 @@ export class DynamicMedia extends Entity {
     video?: VideoClip;
 }
 
-// @public (undocumented)
+// @public
 export class EnableDisable {
     constructor(bEnable?: boolean);
     // (undocumented)
@@ -55,40 +57,34 @@ export function setTimeout(delay: number, callback: () => void): void;
 // @public
 export function setUVsBasic(rows: number, cols: number): number[];
 
-// @public (undocumented)
+// @public
 export class SwivelMetaServices extends Entity {
     constructor(projectId: string, debug?: boolean, bInitializeDiscord?: boolean, bLoadOnEnter?: boolean);
-    // (undocumented)
-    addUserActivitiesListener(projectId: string): void;
-    // (undocumented)
-    apiURL: string;
+    addUserActivitiesListener(): void;
     // (undocumented)
     bInitializeDiscord: boolean;
     // (undocumented)
     bLoadOnEnter: boolean;
+    // Warning: (ae-forgotten-export) The symbol "ComponentObjectPairs" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    componentObjectPairs: {
-        component: string;
-        object: any;
-    }[];
+    componentObjectPairs: ComponentObjectPairs[];
     // (undocumented)
     debug: boolean;
-    // (undocumented)
-    discordHookURL: string;
     // (undocumented)
     display_name?: string;
     // (undocumented)
     endTime?: Date;
-    // (undocumented)
     getCurrentUtcEpochTime(): string;
     // (undocumented)
     guest?: boolean;
-    // (undocumented)
-    InitializeVisitorData(projectId: string): Promise<void>;
+    InitializeVisitorData(): Promise<void>;
     // (undocumented)
     once: boolean;
     // (undocumented)
     parcels?: string;
+    // Warning: (ae-forgotten-export) The symbol "SwivelMetaConfig" needs to be exported by the entry point index.d.ts
+    parseConfigData(): Promise<SwivelMetaConfig>;
     // (undocumented)
     platform?: string;
     // (undocumented)
@@ -99,20 +95,19 @@ export class SwivelMetaServices extends Entity {
     room_id?: string;
     // (undocumented)
     sceneName?: string;
-    // (undocumented)
     sendUserDetailsNotification(operationType: any, userId: any): Promise<void>;
     // (undocumented)
     startTime: Date;
-    // (undocumented)
     updateMediaOnSceneEnter(assign: {
         component: string;
         object: any;
     }[]): Promise<void>;
-    // (undocumented)
     updateMediaOnSceneLoad(assign: {
         component: string;
         object: any;
     }[], debug?: boolean): Promise<void>;
+    // (undocumented)
+    userData: UserData;
     // (undocumented)
     wallet_address?: string;
 }

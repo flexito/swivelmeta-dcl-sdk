@@ -7,8 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-componentObjectPairs: {
-        component: string;
-        object: any;
-    }[];
+componentObjectPairs: ComponentObjectPairs[];
 ```

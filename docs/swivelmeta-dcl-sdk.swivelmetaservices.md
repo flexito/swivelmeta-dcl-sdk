@@ -4,6 +4,8 @@
 
 ## SwivelMetaServices class
 
+Swivel Meta Services, a class used to interact with Swivel Meta API. Allows you to fetch data from Swivel Meta API, update components, and send user data to Swivel Meta Cloud for analytics.
+
 <b>Signature:</b>
 
 ```typescript
@@ -21,12 +23,10 @@ export declare class SwivelMetaServices extends Entity
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [apiURL](./swivelmeta-dcl-sdk.swivelmetaservices.apiurl.md) |  | string |  |
 |  [bInitializeDiscord](./swivelmeta-dcl-sdk.swivelmetaservices.binitializediscord.md) |  | boolean |  |
 |  [bLoadOnEnter](./swivelmeta-dcl-sdk.swivelmetaservices.bloadonenter.md) |  | boolean |  |
-|  [componentObjectPairs](./swivelmeta-dcl-sdk.swivelmetaservices.componentobjectpairs.md) |  | { component: string; object: any; }\[\] |  |
+|  [componentObjectPairs](./swivelmeta-dcl-sdk.swivelmetaservices.componentobjectpairs.md) |  | ComponentObjectPairs\[\] |  |
 |  [debug](./swivelmeta-dcl-sdk.swivelmetaservices.debug.md) |  | boolean |  |
-|  [discordHookURL](./swivelmeta-dcl-sdk.swivelmetaservices.discordhookurl.md) |  | string |  |
 |  [display\_name?](./swivelmeta-dcl-sdk.swivelmetaservices.display_name.md) |  | string | <i>(Optional)</i> |
 |  [endTime?](./swivelmeta-dcl-sdk.swivelmetaservices.endtime.md) |  | Date | <i>(Optional)</i> |
 |  [guest?](./swivelmeta-dcl-sdk.swivelmetaservices.guest.md) |  | boolean | <i>(Optional)</i> |
@@ -38,16 +38,18 @@ export declare class SwivelMetaServices extends Entity
 |  [room\_id?](./swivelmeta-dcl-sdk.swivelmetaservices.room_id.md) |  | string | <i>(Optional)</i> |
 |  [sceneName?](./swivelmeta-dcl-sdk.swivelmetaservices.scenename.md) |  | string | <i>(Optional)</i> |
 |  [startTime](./swivelmeta-dcl-sdk.swivelmetaservices.starttime.md) |  | Date |  |
+|  [userData](./swivelmeta-dcl-sdk.swivelmetaservices.userdata.md) |  | UserData |  |
 |  [wallet\_address?](./swivelmeta-dcl-sdk.swivelmetaservices.wallet_address.md) |  | string | <i>(Optional)</i> |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [addUserActivitiesListener(projectId)](./swivelmeta-dcl-sdk.swivelmetaservices.adduseractivitieslistener.md) |  |  |
-|  [getCurrentUtcEpochTime()](./swivelmeta-dcl-sdk.swivelmetaservices.getcurrentutcepochtime.md) |  |  |
-|  [InitializeVisitorData(projectId)](./swivelmeta-dcl-sdk.swivelmetaservices.initializevisitordata.md) |  |  |
-|  [sendUserDetailsNotification(operationType, userId)](./swivelmeta-dcl-sdk.swivelmetaservices.senduserdetailsnotification.md) |  |  |
-|  [updateMediaOnSceneEnter(assign)](./swivelmeta-dcl-sdk.swivelmetaservices.updatemediaonsceneenter.md) |  |  |
-|  [updateMediaOnSceneLoad(assign, debug)](./swivelmeta-dcl-sdk.swivelmetaservices.updatemediaonsceneload.md) |  |  |
+|  [addUserActivitiesListener()](./swivelmeta-dcl-sdk.swivelmetaservices.adduseractivitieslistener.md) |  | Add the listener for the user's activities. Like when the user enters the scene or leaves the scene. |
+|  [getCurrentUtcEpochTime()](./swivelmeta-dcl-sdk.swivelmetaservices.getcurrentutcepochtime.md) |  | Get the current date and time in UTC epoch time format. |
+|  [InitializeVisitorData()](./swivelmeta-dcl-sdk.swivelmetaservices.initializevisitordata.md) |  | Add a listener to the scene which will ping your discord and send the user details to Swivel Meta Cloud. |
+|  [parseConfigData()](./swivelmeta-dcl-sdk.swivelmetaservices.parseconfigdata.md) |  | Get the Swivel Meta Config Data from the Swivel Meta API. |
+|  [sendUserDetailsNotification(operationType, userId)](./swivelmeta-dcl-sdk.swivelmetaservices.senduserdetailsnotification.md) |  | Send a notification to the Discord webhook with the user's details and the action/activity they performed. |
+|  [updateMediaOnSceneEnter(assign)](./swivelmeta-dcl-sdk.swivelmetaservices.updatemediaonsceneenter.md) |  | Update the DynamicMedia when a user enters the parcel. |
+|  [updateMediaOnSceneLoad(assign, debug)](./swivelmeta-dcl-sdk.swivelmetaservices.updatemediaonsceneload.md) |  | This function is used to update the media when the scene load. |
 
