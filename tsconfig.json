@@ -20,6 +20,18 @@
       "@dcl/ui-scene-utils": [
         "node_modules\\@dcl\\ui-scene-utils\\dist\\index.d.ts"
       ],
+      "eth-connect": [
+        "node_modules\\eth-connect\\eth-connect.d.ts"
+      ],
+      "decentraland-transactions": [
+        "node_modules\\decentraland-transactions\\decentraland-transactions.d.ts"
+      ],
+      "@dcl/l2-scene-utils": [
+        "node_modules\\@dcl\\l2-scene-utils\\dist\\index.d.ts"
+      ],
+      "@dcl/crypto-scene-utils": [
+        "node_modules\\@dcl\\crypto-scene-utils\\dist\\index.d.ts"
+      ]
     },
     "baseUrl": ".",
   },
