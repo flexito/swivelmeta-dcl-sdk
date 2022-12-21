@@ -45,11 +45,11 @@ enum WearableBodyShape {
   
   
   /**
-   * TODO: Use nftAddress and assetId to get the wearable data from the server
+  //  * TODO: Use nftAddress and assetId to get the wearable data from the server
    * 
-   * TODO: Add BUY button which initiates the buy functionality
+  //  * TODO: Add BUY button which initiates the buy functionality
    * 
-   * TODO: Add PREVIEW button which initiates the Avatar Swap so users can preview the wearable
+  //  * TODO: Add PREVIEW button which initiates the Avatar Swap so users can preview the wearable
    * 
    * TODO IF TIME ALLOWS: Ability to swap the wearable in real time between collections using arrow icons or keys
    * 
