@@ -9,12 +9,11 @@ export { ui, utils };
  * A function to log debug messages. Only logs if the debug flag is set to true.
  * 
  * @param debug - The debug flag, true by default.
- * @param message - The message to log.
  * @param args - The arguments to log.
 */
-export const debugLog = ( debug: boolean = true, message: string, ...args: any[] ) => {
+export const debugLog = ( debug: boolean = true, ...args: any[] ) => {
     if ( debug ) {
-        log(message, ...args);
+        log(...args);
     }
 }
 
