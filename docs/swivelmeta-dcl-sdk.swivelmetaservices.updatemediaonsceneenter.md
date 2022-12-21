@@ -4,6 +4,8 @@
 
 ## SwivelMetaServices.updateMediaOnSceneEnter() method
 
+Update the DynamicMedia when a user enters the parcel.
+
 <b>Signature:</b>
 
 ```typescript
@@ -17,9 +19,13 @@ updateMediaOnSceneEnter(assign: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  assign | { component: string; object: any; }\[\] |  |
+|  assign | { component: string; object: any; }\[\] | The pairing of, components to be assigned to the entities. |
 
 <b>Returns:</b>
 
 Promise&lt;void&gt;
+
+## Example
+
+//Usage example const componentEntityPairs = \[ { component: "mainVideoScreen", object: videoScreen } { component: "ExampleComponent2", object: ExampleDynamicMedia2 } \]; updateMediaOnSceneEnter( componentEntityPairs );
 

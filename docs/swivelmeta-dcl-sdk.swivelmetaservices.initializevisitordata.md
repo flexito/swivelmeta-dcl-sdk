@@ -4,18 +4,13 @@
 
 ## SwivelMetaServices.InitializeVisitorData() method
 
+Add a listener to the scene which will ping your discord and send the user details to Swivel Meta Cloud.
+
 <b>Signature:</b>
 
 ```typescript
-InitializeVisitorData(projectId: string): Promise<void>;
+InitializeVisitorData(): Promise<void>;
 ```
-
-## Parameters
-
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  projectId | string |  |
-
 <b>Returns:</b>
 
 Promise&lt;void&gt;

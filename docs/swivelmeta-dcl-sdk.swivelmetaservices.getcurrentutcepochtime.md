@@ -4,6 +4,8 @@
 
 ## SwivelMetaServices.getCurrentUtcEpochTime() method
 
+Get the current date and time in UTC epoch time format.
+
 <b>Signature:</b>
 
 ```typescript
@@ -12,4 +14,6 @@ getCurrentUtcEpochTime(): string;
 <b>Returns:</b>
 
 string
+
+- The current date and time in UTC epoch time format.
 
