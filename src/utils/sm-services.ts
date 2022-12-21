@@ -206,7 +206,7 @@ export class SwivelMetaServices extends Entity {
                 headers: {
                     Accept:  "application/json, text/plain, image/*, */*",
                     Origin: "https://play.decentraland.org",
-                    Host: "prod-swivelmeta.com",
+                    // Host: "https://d3crq3rcakan35.cloudfront.net",
                 },
                 body: request.toString(),
             });
