@@ -2,7 +2,7 @@ import { getUserAccount } from "@decentraland/EthereumController";
 import * as eth from 'eth-connect'
 import * as ui from '@dcl/ui-scene-utils'
 import { createComponents, delay} from '../marketplace/components/index'
-
+import { debugLog } from "src/utils/utilsLib";
 
 
 /**
@@ -49,7 +49,7 @@ export class DonationBox extends Entity {
      * @type {string}
      * @default "DonationName"
      */
-    donationName: string = "DonationName"
+    donationMessage: string = "DonationName"
 
     /**
      * mana is the mana component that will be used to send the donation.
@@ -88,6 +88,13 @@ export class DonationBox extends Entity {
      */
     actionDistance: number = 7
 
+    /**
+     * debug is a boolean that determines whether or not debug messages will be displayed.
+     * @type {boolean}
+     * @default false
+     */
+    debug: boolean = false
+
 
     /**
      * The constructor of the DonationBox class.
@@ -99,14 +106,15 @@ export class DonationBox extends Entity {
         model: GLTFShape,
         position: TransformConstructorArgs,
         receivingWalletAddress: string,
+        donationMessage?: string
     ) {
         super()
         engine.addEntity(this)
 
         this.uiPanel = new ui.CustomPrompt(
             ui.PromptStyles.DARKLARGE,
-            800,
             400,
+            200,
             true
         )
 
@@ -114,6 +122,7 @@ export class DonationBox extends Entity {
         this.position = position;
         this.defaultDonationAmount;
         this.receivingWalletAddress = receivingWalletAddress;
+        donationMessage !== undefined ? this.donationMessage = donationMessage : this.donationMessage = "DonationName";
 
         this.addComponent(this.model)
         this.addComponent(this.position)
@@ -132,78 +141,117 @@ export class DonationBox extends Entity {
         ))
     }
 
+    /**
+     * initialize is an async function that initializes the DonationBox and its components.
+     * @async
+     */
     public async initialize(): Promise<void> {
-        log("Initializing DonationBox")
-        const { mana } = await createComponents();
+        debugLog(this.debug, "Initializing DonationBox")
         let currentBalance: any;
         let balance: any;
-
-        this.mana = mana;
-        this.fromAddress = await getUserAccount();
         
+
+        // Initialize the mana component
+        const { mana } = await createComponents();
+        this.mana = mana;
+
+
+        // Get the user's address and balance
+        this.fromAddress = await getUserAccount();
         balance = await mana.balance();
         currentBalance = +eth.fromWei(balance, "ether");
-        log('user balance: ',currentBalance, 'MANA');
-
+        debugLog(this.debug, 'user balance: ',currentBalance, 'MANA');
         this.balance = currentBalance;
+        
 
+        // Get the mana contract
         const { manaConfig } = await mana.getContract();
-        // log("manaConfig: ", manaConfig)
+        // debugLog("manaConfig: ", manaConfig)
 
+        // get the allowance amount
         const allowance = await mana.isApproved(manaConfig.address)
-        log("allowance :", allowance);
-        // log(balance, allowance);
-        log(eth.fromWei(balance, "ether"), allowance);
+        debugLog(this.debug, "allowance :", allowance);
+        debugLog(this.debug, "balance :", eth.fromWei(balance, "ether"), "MANA");
 
     };
 
+
+    /**
+     * openUI is a function that creates the UI elements and opens the UI panel when the DonationBox is used.
+     */
     public openUI(): void {
+        // Show the donation UI
         this.uiPanel.show()
+
+
+        // Set the default donation amount
         let tipAmountText = this.defaultDonationAmount.toString();
 
-        // Add text to UI
-        let defaultText = this.uiPanel.addText(`Donate to ${this.donationName}`, 0, 100, Color4.White(), 30);
+
+        // Add text to UI panel
+        const defaultText = this.uiPanel.addText(`${this.donationMessage}`, 0, 80, Color4.White(), 30);
         defaultText.text.hAlign = "center"
         defaultText.text.vAlign = "center"
 
+
         // Add input box to UI for mana tip tip
-        const tipAmountInput = this.uiPanel.addTextBox(0, -30, tipAmountText, (e: any) => {
-            tipAmountText = e;
-            log("tipAmountText: ", tipAmountText)
-        })
+        const tipAmountInput = this.uiPanel.addTextBox(0, 0, tipAmountText,
+            (e: any) => {
+                tipAmountText = e;
+                debugLog(this.debug, "tipAmountText: ", tipAmountText)
+            }
+        )
         tipAmountInput.fillInBox.hAlign = "center";
         tipAmountInput.fillInBox.textWrapping = true;
-        this.uiPanel.addText("MANA", 200, -17.5, Color4.White(), 20)
+        tipAmountInput.fillInBox.width = 200;
+        tipAmountInput.fillInBox.onTextSubmit.callback = ( e:any ) => {
+            tipAmountText = e.text;
+            debugLog(this.debug, "tipAmountText: ", tipAmountText)
+        }
 
-        // Add TIP button to UI
-        const tipButton = this.uiPanel.addButton("DONATE", 0, -100, () => {
+
+        // Add MANA text next to input box
+        const manaText = this.uiPanel.addText("MANA", 140, 15, Color4.White(), 20)
+        manaText.text.vAlign = "center"
+        manaText.text.hAlign = "center"
+
+
+        // Add DONATE button to UI
+        const donateButton = this.uiPanel.addButton("DONATE", -100, -60, () => {
             this.tipAmount = +tipAmountText;
-            log("tipAmount: ", this.tipAmount)
+            debugLog(this.debug, "tipAmount: ", this.tipAmount)
             this.makeDonation(this.tipAmount);
             this.uiPanel.hide()
         }, ui.ButtonStyles.ROUNDGOLD)
+        debugLog(this.debug, "tipButton.image.width: ", donateButton.image.width)
 
 
         // Add CANCEL button to UI
-        const cancelButton = this.uiPanel.addButton("CANCEL", 0, -150, () => {
+        const cancelButton = this.uiPanel.addButton("CANCEL", 100, -60, () => {
             this.uiPanel.hide()
-            log("transaction cancelled")
+            debugLog(this.debug, "transaction cancelled")
         }, ui.ButtonStyles.RED)
 
 
     };
 
+
+    /**
+     * makeDonation is an async function that makes a donation to the receiving wallet address.
+     * @param tipAmount The amount of MANA to be donated.
+     * @returns  Once the donation has been made, the function opens a UI panel with a success message and the transaction hash.
+     */
     public async makeDonation(tipAmount: number): Promise<void> {
-        log("makeDonation: ", tipAmount)
-        // log("makeDonation BIG: ", +eth.toWei(tipAmount, "ether"))
+        debugLog(this.debug, "makeDonation: ", tipAmount)
 
         
 
         // get MANA contract
         const { manaConfig } = await this.mana.getContract();
 
+        // CHECK IF USER HAS GIVEN PERMISSION TO TRANSFER MANA
         const allowance = await this.mana.isApproved(manaConfig.address)
-        log("allowance :", allowance);
+        debugLog(this.debug, "allowance :", allowance);
 
         // CHECK IF USER HAS ENOUGH MONEY
         if (+tipAmount > +this.balance) {
@@ -213,22 +261,22 @@ export class DonationBox extends Entity {
 
 
         // CHECK IF USER HAS GIVEN PERMISSION TO TRANSFER MANA
-        log( +tipAmount > 0 && +tipAmount > +allowance )
+        // debugLog( +tipAmount > 0 && +tipAmount > +allowance )
         if ( +tipAmount > 0 && +tipAmount > +allowance ) {
 
+            // Prompt user to authorize MANA transfer
             new ui.OptionPrompt(
                 "Approve MANA",
                 "Authorize the MANA contract to operate MANA on your behalf",
+
                 // Approve Action
                 async () => {
                     const custom = new ui.CustomPrompt("dark", undefined, 200);
                     custom.addText("Please wait.\nThe transaction is being processed", 0, 50, undefined, 20);
-                    // const loading = new ui.LoadingIcon(undefined, 0, -120);
             
                     await this.mana.approve(manaConfig.address, tipAmount).catch(() => {});
                     await delay(3000);
                     custom.hide();
-                    // loading.hide();
 
 
                     // run makeDonation again, this time skipping the MANA AUTHORIZATION
@@ -236,10 +284,11 @@ export class DonationBox extends Entity {
                     // return, once transaction is complete or cancelled
                     return;
                 },
+
                 // Reject Action
                 async () => {
                     await delay(200);
-                    log("reject, new prompt");
+                    debugLog(this.debug, "reject, new prompt");
                     new ui.OkPrompt(
                         "You need to authorize the Mana contract to be able to send MANA",
                         undefined,
@@ -267,24 +316,22 @@ export class DonationBox extends Entity {
                 async () => {
                     const custom = new ui.CustomPrompt("dark", undefined, 200);
                     custom.addText("Please wait.\nThe donation transaction is being processed", 0, 50, undefined, 20);
-                    // const loading = new ui.LoadingIcon(undefined, 0, -120);
                     
                     const res = await this.mana.sendMana(this.receivingWalletAddress, +eth.toWei(tipAmount, "ether"));
                     
                     custom.hide();
-                    // loading.hide();
                     
-                    log('res: ',res);
+                    debugLog(this.debug, 'res: ',res);
                     if (res) {
-                        log("Donation made")
-                        log(`https://polygonscan.com/tx/${res}`);
+                        debugLog(this.debug, "Donation made")
+                        debugLog(this.debug, `https://polygonscan.com/tx/${res}`);
                         new ui.OptionPrompt(
                             "Donation successful!",
                             '',
                             () => {},
                             () => {
                                 const newBalance = this.balance - tipAmount;
-                                log('new user balance: ',newBalance, 'MANA')
+                                debugLog(this.debug, 'new user balance: ',newBalance, 'MANA')
                                 
                                 openExternalURL(`https://polygonscan.com/tx/${res}`);
                             },
@@ -292,6 +339,7 @@ export class DonationBox extends Entity {
                             "PolygonScan",
                             true
                             );
+
                     } else {
                         new ui.OkPrompt("Donation failed.\nPlease try again.", undefined, undefined, true);
                     }
@@ -300,9 +348,7 @@ export class DonationBox extends Entity {
                 "Ok",
                 "Cancel",
                 true
-            );
+            )
         }
-    };
-            
-
+    }
 }
