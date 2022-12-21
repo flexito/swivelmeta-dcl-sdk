@@ -7,9 +7,6 @@ import * as eth from "eth-connect";
 import * as utils from '@dcl/ecs-scene-utils'
 import { SkinWearable } from "./skinWearable";
 import { getUserData, UserData } from "@decentraland/Identity"
-import { getPlayersInScene, getPlayerData, getConnectedPlayers } from "@decentraland/Players"
-import { NFTdata, createNftEntity } from '../NFTs/nftData';
-import { ThumbnailClick } from '../Entities/ThumbnailClick';
 
 
 
@@ -61,8 +58,7 @@ enum WearableBodyShape {
   export class wearableAvatar extends Entity {
     transform: TranformConstructorArgs;
     avatar: Entity;
-    // avatarShape = new AvatarShape();
-    // avatarBodyShape: any;
+
     wearableData: any
     network: any;
     wearableCollection: any;
@@ -77,16 +73,12 @@ enum WearableBodyShape {
     hideAvatarEntity: Entity;
     wearableModel: GLTFShape | SkinWearable;
 
-    public nftData: NFTdata;
-    public thumbnail: ThumbnailClick;
   
     constructor(
         transform: TranformConstructorArgs,
         wearableCollection: string,
         wearableModel: GLTFShape,
         network: "matic" | "eth" = "matic",
-        thumbnail?: ThumbnailClick,
-        nftData?: NFTdata,
         hideTry: boolean = false,
         hideBuy: boolean = false,
     ) {
@@ -99,33 +91,16 @@ enum WearableBodyShape {
             new AnimationState('Platform_Idle', { looping: true })
         );
         this.getComponent(Animator).getClip('Platform_Idle').play()
-        // this.setParent(avatarGroup)
-        engine.addEntity(this);
+        engine.addEntity(this)
         
-        const parent = new Entity();
-        engine.addEntity(parent);
-        parent.setParent(this);
+        const parent = new Entity()
+        engine.addEntity(parent)
+        parent.setParent(this)
 
         this.transform = transform;
         this.network = network;
         this.wearableModel = wearableModel;
         this.wearableCollection = wearableCollection;
-        
-        if ( thumbnail !== undefined ) {
-          this.thumbnail = thumbnail;
-
-          this.thumbnail.setParent(parent);
-        }
-
-        if (nftData) {
-          this.nftData = nftData;
-
-          let nftImage = createNftEntity(this.nftData.position, this.nftData.contract, this.nftData.tokenId)
-          nftImage.setParent(parent);
-        }
-
-        // this.avatarBodyShape = avatarBodyShape === undefined ? WearableBodyShape.MALE : avatarBodyShape === 'MALE' ? WearableBodyShape.MALE : WearableBodyShape.FEMALE;
-        // log("bodyShape: ",this.avatarBodyShape)
 
 
         this.addComponent(new Transform(this.transform));
@@ -135,28 +110,25 @@ enum WearableBodyShape {
 
 
         //** -- AVATAR SHAPE -- **/
-        this.avatar = new Entity("avatar");
-        // this.avatar.addComponent(new Transform(this.transform));
-        // this.avatar.addComponent(this.avatarShape);
+        this.avatar = new Entity("avatar")
         this.avatar.addComponent(wearableModel)
         this.avatar.addComponent(new Transform({
             position: new Vector3(0, .25, 0),
             rotation: Quaternion.Euler(0, 0, 0),
             scale: new Vector3(1, 1, 1)
         }))
-        // engine.addEntity(this.avatar);
-        this.avatar.setParent(parent);
+        this.avatar.setParent(parent)
         
         
 
         //** -- BUY BUTTON -- **/
-        this.buyButton = new Entity("buyButton");
+        this.buyButton = new Entity("buyButton")
         this.buyButton.addComponent(new Transform({
             position: new Vector3(-.5, 1, 0),
             rotation: Quaternion.Euler(0, 180, 0),
             scale: new Vector3(1, 1, 1),
-        }));
-        this.buyButton.addComponent(models.buyButtonShape);
+        }))
+        this.buyButton.addComponent(models.buyButtonShape)
         
         // Animation Setup
         this.buyButton.addComponent(new Animator());
@@ -165,7 +137,6 @@ enum WearableBodyShape {
         
         if ( !hideTry ) {
           this.buyButton.setParent(parent);
-          // this.buyButton.setParent(avatarGroup);
         }
 
         this.buyButtonTextRoot = new Entity("buyButtonTextRoo");
@@ -178,12 +149,14 @@ enum WearableBodyShape {
 
         this.buyButtonTextRoot.addComponent(this.buyButtonText);
         this.buyButtonTextRoot.addComponent(
-        new Transform({
-            position: new Vector3(0, 0.0, 
+          new Transform({
+              position: new Vector3(
+                0, 
+                0.0, 
                 // -0.05
-            ),
-            scale: new Vector3(0.1, 0.1, 0.1),
-        })
+              ),
+              scale: new Vector3(0.1, 0.1, 0.1),
+          })
         );
 
         this.buyButtonTextRoot.setParent(this.buyButton);
@@ -234,12 +207,9 @@ enum WearableBodyShape {
 
         //**  -- HIDE AVATAR ENTITY -- **/
         let offsetX = 0; let offsetY = 2; let offsetZ = 0;
-        // let offsetY = 1;
-        // let offsetZ = 3.5;
         let offsetPos = new Vector3(offsetX, offsetY, offsetZ);
         
         let hideParent = new Entity();
-        // hideParent.addComponent(new Transform(this.transform));
         this.hideAvatarEntity = new Entity("hideAvatarEntity");
         this.hideAvatarEntity.setParent(hideParent);
         if (this.hideAvatarEntity.isAddedToEngine()) {
@@ -250,12 +220,8 @@ enum WearableBodyShape {
             this.transform.position?.x == undefined ? offsetPos.x : (this.transform.position.x + offsetPos.x), 
             this.transform.position?.y == undefined ? offsetPos.y : (this.transform.position.y + offsetPos.y), 
             this.transform.position?.z == undefined ? offsetPos.z : (this.transform.position.z + offsetPos.z),
-            //   offsetPos.x,
-            //   offsetPos.y,
-            //   offsetPos.z,
           ),
           rotation: this.transform.rotation,
-          // scale: this.transform.scale,
         }));
 
         
@@ -266,7 +232,6 @@ enum WearableBodyShape {
               area: { box: new Vector3(8, 3, 8) },
               modifiers: [AvatarModifiers.HIDE_AVATARS],
               excludeIds: []
-              // excludeIds: [this.avatar.getComponent(AvatarShape).id]
           })
         );
         //**  -- AVATAR MODIFIER AREA COMPONENT -- **//
@@ -307,18 +272,7 @@ enum WearableBodyShape {
                 skin.setParent(Attachable.AVATAR);
                 
                 // engine.removeEntity(this.avatar);
-                
-                /*
-                // -- LOGGING -- //
-                log("isON: ",this.getComponent(utils.ToggleComponent).isOn())
-                log(this.uuid)
-                log("hideAvatarEntity in Engine?: ", this.hideAvatarEntity.isAddedToEngine());
-                log("hideAvatarEntity Ids: ", this.hideAvatarEntity.getComponent(AvatarModifierArea).excludeIds);
-                log("skin in Engine?: ", skin.isAddedToEngine());
-                log("skin scale: ",skin.getComponent(Transform).scale)
-                log("model: ",skin.getComponent(GLTFShape).src)
-                log("skin parent: ",skin.getParent()?.uuid)
-                */
+
             } else {
                 skin.getComponent(Transform).scale.setAll(0)
                 skin.setParent(null);
@@ -327,18 +281,6 @@ enum WearableBodyShape {
                 engine.addEntity(this.previewButton);
 
                 // engine.addEntity(this.avatar);
-
-                /*
-                // -- LOGGING -- //
-                log("isON: ",this.getComponent(utils.ToggleComponent).isOn())
-                log(this.uuid)
-                log("hideAvatarEntity in Engine?: ", this.hideAvatarEntity.isAddedToEngine());
-                log("hideAvatarEntity Ids: ", this.hideAvatarEntity.getComponent(AvatarModifierArea).excludeIds);
-                log("skin in Engine?: ", skin.isAddedToEngine());
-                log("skin scale: ",skin.getComponent(Transform).scale)
-                log("model: ",skin.getComponent(GLTFShape).src)
-                log("skin parent: ",skin.getParent()?.uuid)
-                */
             }
           }))
           //**  -- END TOGGLE STATE -- **//
@@ -352,50 +294,32 @@ enum WearableBodyShape {
     //* -- FUNCTIONS -- */ 
     async getWearableData(){
       log("Getting Wearable Data...")
-      // getWearableData(){
-        // log("test")
         this.wearableData = await mfetch.collection(this.wearableCollection, this.network, testNetwork)
-        // this.wearableData = mfetch.collection(this.wearableCollection, this.network, testNetwork)
-        // log("data: ", this.wearableData);
 
         let _collection = this.wearableData
         let _item = _collection.items[0]
         let _metadata = _item.metadata
         
-/*
-        // -- SETUP AVATAR DISPLAY
-        this.avatarShape.name = _metadata.wearable.name;
-        this.avatarShape.bodyShape = this.avatarBodyShape;
-        this.avatarShape.wearables = [
-          _item.urn
-        ];
-*/
-
-        
         
         // -- BUY BUTTON
-        // log("item available: ", _item.available);
         if (_item.available > 1){
             this.buyButton.addComponentOrReplace(
                 new OnPointerDown(
                  () => {
                     this.infoPrompt(this.wearableData);
-                    // this.buy(_collection.id, _item.blockchainId, _item.price);
-                    // log("buy");
                 },
                 {
                     button: ActionButton.SECONDARY,
                     hoverText: "BUY WEARABLE",
-                    // distance: 2
                 }
                 )
             );
+
         } else {
             this.buyButton.addComponentOrReplace(
                 new OnPointerDown( () => {}, {
                     button: ActionButton.PRIMARY,
                     hoverText: "OUT OF STOCK",
-                    // distance: 2
                 })
             );
         }

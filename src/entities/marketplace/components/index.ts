@@ -75,13 +75,13 @@ export async function buy(collectionId: string, blockchainId: number, price: num
         log(balance, allowance);
         log(eth.fromWei(balance, "ether"), allowance);
 
-        // TODO: CHECK IF USER HAS ENOUGH MONEY
+        // CHECK IF USER HAS ENOUGH MONEY
         if (+price > +balance) {
             new ui.OkPrompt("Sorry, you do not have enough MANA", undefined, undefined, true);
             return;
         }
 
-        // TODO: CHECK IF MARKETPLACE HAS PERMISSION TO BUY
+        // CHECK IF MARKETPLACE HAS PERMISSION TO BUY
         log(+price > 0 && +price > +allowance);
         if (+price > 0 && +price > +allowance) {
             log("Authorize the Store contract to operate MANA");
