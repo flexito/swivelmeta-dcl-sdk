@@ -1,5 +1,3 @@
-// import * as test from '../../resources'
-
 // Open dialog sound
 export const openDialogSound = new Entity()
 openDialogSound.addComponent(new Transform())
