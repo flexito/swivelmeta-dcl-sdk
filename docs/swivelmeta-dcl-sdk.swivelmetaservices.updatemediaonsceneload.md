@@ -4,6 +4,8 @@
 
 ## SwivelMetaServices.updateMediaOnSceneLoad() method
 
+This function is used to update the media when the scene load.
+
 <b>Signature:</b>
 
 ```typescript
@@ -17,10 +19,14 @@ updateMediaOnSceneLoad(assign: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  assign | { component: string; object: any; }\[\] |  |
-|  debug | boolean | <i>(Optional)</i> |
+|  assign | { component: string; object: any; }\[\] | The pairing of, components to be assigned to the entities. |
+|  debug | boolean | <i>(Optional)</i> Debug mode, default is false. |
 
 <b>Returns:</b>
 
 Promise&lt;void&gt;
+
+## Example
+
+//Usage example const componentEntityPairs = \[ { component: "mainVideoScreen", object: videoScreen }<!-- -->, { component: "ExampleComponent2", object: ExampleDynamicMedia2 } \]; updateMediaOnSceneLoad( componentEntityPairs );
 

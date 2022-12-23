@@ -4,6 +4,8 @@
 
 ## EnableDisable class
 
+EnableDisable is a class that holds a boolean value that can be used to enable or disable a component.
+
 <b>Signature:</b>
 
 ```typescript
