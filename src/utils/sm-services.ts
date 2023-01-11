@@ -256,37 +256,6 @@ export class SwivelMetaServices extends Entity {
     }
 
 
-    /**
-     * Fetches the config data from the Swivel Meta API.
-     * @param projectId - The project ID to fetch the config for.
-     * @returns - The config data in JSON format.
- */
-    private async getConfigData( projectId: string ) {
-        // Assemble request to get config data
-        const request = 
-        `{
-            getProjectByUrlName(urlName: "${projectId}") {
-                config
-            }
-        }`
-
-        return this.fetchQuery(request)
-        .then((response) => response.json())
-        .then((res) => {
-            this.debugLog('getConfigData :: res ::', res);
-            if (res.data) { return res.data; } 
-            else { return res; }
-        }).catch((error) => {
-            log(error)
-            try {
-                throw new Error(`getConfigData :: Error :: ${error}`);
-            } catch (error) {
-                log(error)
-            }
-        });
-    }
-
-
 
     /**
      * Send a notification to the Discord webhook.
@@ -519,6 +488,43 @@ export class SwivelMetaServices extends Entity {
 
 
     /**
+     * Fetches the config data from the Swivel Meta API.
+     * @param projectId - The project ID to fetch the config for.
+     * @returns - The config data in JSON format.
+    */
+    private async getConfigData( projectId: string ) {
+        // Assemble request to get config data
+        const request = 
+        `{
+            getProjectByUrlName(urlName: "${projectId}") {
+                config
+                active_config
+                asset_config{
+                    definition_config
+                    base_asset_pack_config
+                    asset_pack_config
+                }
+            }
+        }`
+
+        return this.fetchQuery(request)
+        .then((response) => response.json())
+        .then((res) => {
+            this.debugLog('getConfigData :: res ::', res);
+            if (res.data) { return res.data; } 
+            else { return res; }
+        }).catch((error) => {
+            log(error)
+            try {
+                throw new Error(`getConfigData :: Error :: ${error}`);
+            } catch (error) {
+                log(error)
+            }
+        });
+    }
+
+    
+    /**
      * Get the Swivel Meta Config Data from the Swivel Meta API.
      * 
      * @returns - Swivel Meta Config Data
@@ -532,13 +538,13 @@ export class SwivelMetaServices extends Entity {
             try {
                 // fetch the config data
                 const result = await this.getConfigData( this.projectId )
-                .then( res => JSON.parse(res.getProjectByUrlName.config) )
+                .then( res => JSON.parse(res.getProjectByUrlName.active_config) )
                 .then( config => { if ( config ) return config } )
             
                 this.debugLog("Swivel Meta Config Data: ", result)
 
                 // return the config data
-                const config = result.sm_config_pack.components as SwivelMetaConfig;
+                const config = result.components as SwivelMetaConfig;
 
                 // check if the config data is undefined
                 if ( config === undefined ) {
@@ -574,13 +580,14 @@ export class SwivelMetaServices extends Entity {
 
         // fetch and parse the Config Data
         Components = await this.parseConfigData();
+        this.debugLog("updateMediaOnSceneLoad :: Components :: ", Components);
     
         // assign the components to the corresponding entities
         for (let element of assign ){
             // current component from the config data
             const currentComp = Components[element.component];
             // current value from the current component
-            const currentMedia = currentComp["parameters"][0].default_value;
+            const currentMedia = currentComp["parameters"][0].value;
             // current entity from the scene
             const currentEntity = element.object;
     
