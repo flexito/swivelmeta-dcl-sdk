@@ -1,6 +1,6 @@
 {
   "name": "swivelmeta-dcl-sdk",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "DCL SDK Library powered by Swivel Meta",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
